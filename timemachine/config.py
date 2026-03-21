@@ -52,16 +52,14 @@ month_pins = (5, 12, 6)
 day_pins = (17, 13, 27)
 
 
-screen_led_pin = 19
+screen_led_pin = 7   # was 19 — conflicts with HiFiBerry DAC+ Pro
 
-select_pin = 4  # pin 4 ok w/ Sound card
-play_pause_pin = 20  # pin 18 interferes with sound card
-stop_pin = 2  # from the I2C bus (may need to connect to ground)
-ffwd_pin = 26  # pin 26 ok with sound card.
-if utils.get_board_version() == 2:
-    rewind_pin = 21
-else:
-    rewind_pin = 3
+select_pin = 4    # pin 4 ok w/ Sound card
+play_pause_pin = 9  # was 20 (HiFiBerry conflict), then 25 (display RST conflict); GPIO9 is SPI MISO but display is write-only so MISO is unwired
+stop_pin = 14     # was 2 (HiFiBerry/I2C conflict), then 24 (display DC conflict); GPIO14 is UART TX, safe if serial console is disabled (default on Pi 3B)
+ffwd_pin = 26     # pin 26 ok with sound card.
+# rewind_pin: was 21/3 (HiFiBerry conflict), then 8 (SPI CE0/display CS conflict); GPIO15 is UART RX, safe if serial console is disabled
+rewind_pin = 15
 
 
 def default_options():
