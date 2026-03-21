@@ -114,3 +114,4 @@ environments for rollback if needed. Note: The factory environment is also retai
 ## About the code
 
 The code was developed by Steve Eichblatt, with key guidance from Derek Wisong.
+Additions made by Matt Rouser to adapt for use with a HiFiBerry DAC+ and adding the ability to switch between Grateful Dead and Phish streams.
