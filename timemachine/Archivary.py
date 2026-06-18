@@ -109,7 +109,7 @@ class BaseTapeDownloader(abc.ABC):
             ):  # NOTE This condition prevents updates for _everything_ unless there are new tapes.
                 logger.info(f"Writing {len(period_tapes)} tapes to {outpath}")
                 try:
-                    tmpfile = tempfile.mkstemp(".json")[1]
+                    tmpfile = tempfile.mkstemp(".json", dir=iddir)[1]
                     json.dump(period_tapes, open(tmpfile, "w"), indent=2)
                     os.rename(tmpfile, outpath)
                     logger.debug(f"renamed {tmpfile} to {outpath}")
