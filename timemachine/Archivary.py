@@ -1542,11 +1542,17 @@ class GDArchive(BaseArchive):
                     if time_period in years_to_load:
                         logger.debug(f"loading time period {time_period}")
                         chunk = json.load(open(os.path.join(meta_path, filename), "r"))
+                        for t in chunk:
+                            if isinstance(t.get("collection"), str):
+                                t["collection"] = [t["collection"]]
                         addeddates.append(max([x["addeddate"] for x in chunk]))
                         chunk = [t for t in chunk if any(x in self.collection_list for x in t["collection"])]
                         tapes.extend(chunk)
         else:
             tapes = json.load(open(meta_path, "r"))
+            for t in tapes:
+                if isinstance(t.get("collection"), str):
+                    t["collection"] = [t["collection"]]
             addeddates.append(max([x["addeddate"] for x in tapes]))
             tapes = [t for t in tapes if any(x in self.collection_list for x in t["collection"])]
         max_addeddate = max(addeddates) if len(tapes) > 0 else None
