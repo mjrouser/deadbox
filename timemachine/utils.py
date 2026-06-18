@@ -21,8 +21,6 @@ import psutil
 import re
 import subprocess
 
-import pkg_resources
-
 from timemachine import config
 
 logging.basicConfig(
@@ -73,7 +71,7 @@ def get_os_name():
 def get_version():
     __version__ = "v1.0"
     try:
-        latest_tag_path = pkg_resources.resource_filename("timemachine", ".latest_tag")
+        latest_tag_path = os.path.join(ROOT_DIR, ".latest_tag")
         with open(latest_tag_path, "r") as tag:
             __version__ = tag.readline()
         __version__ = __version__.strip()
