@@ -52,7 +52,7 @@ month_pins = (5, 12, 20)  # SW was GPIO6 — conflicts with InnoMaker DAC mute p
 day_pins = (17, 13, 27)
 
 
-screen_led_pin = 7   # was 19 — conflicts with HiFiBerry DAC+ Pro
+screen_led_pin = None  # GPIO7 (SPI CE1) is claimed by kernel SPI driver; backlight not wired in this build
 
 select_pin = 4    # pin 4 ok w/ Sound card
 play_pause_pin = 9  # was 20 (HiFiBerry conflict), then 25 (display RST conflict); GPIO9 is SPI MISO but display is write-only so MISO is unwired

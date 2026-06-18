@@ -751,7 +751,7 @@ class screen:
             y_offset=y_offset,
         )
         self.bgcolor = color565(0, 0, 0)
-        self.led = LED(config.screen_led_pin, initial_value=True)
+        self.led = LED(config.screen_led_pin, initial_value=True) if config.screen_led_pin is not None else None
         # --- swap width/height, if
         if self.disp.rotation % 180 == 90:
             height, width = self.disp.width, self.disp.height
@@ -823,7 +823,7 @@ class screen:
         self.refresh(True)
 
     def sleep(self):
-        self.led.off()
+        if self.led: self.led.off()
         pixels = self.image.tobytes()
         self.clear()
         self.sleeping = True
@@ -832,7 +832,7 @@ class screen:
     def wake_up(self):
         config.WOKE_AT = datetime.datetime.now()
         self.sleeping = False
-        self.led.on()
+        if self.led: self.led.on()
         if self.update_now:
             self.refresh(force=False)
 
