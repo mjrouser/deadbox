@@ -27,7 +27,6 @@ from typing import Callable
 import adafruit_rgb_display.st7735 as st7735
 import board
 import digitalio
-import pkg_resources
 from adafruit_rgb_display import color565
 from gpiozero import LED, Button, RotaryEncoder
 from PIL import Image, ImageDraw, ImageFont
@@ -679,7 +678,7 @@ def select_chars(TMB, counter, message, message2="So Far", character_set=string.
 def get_version():
     __version__ = "v1.0"
     try:
-        latest_tag_path = pkg_resources.resource_filename("timemachine", ".latest_tag")
+        latest_tag_path = os.path.join(ROOT_DIR, ".latest_tag")
         with open(latest_tag_path, "r") as tag:
             __version__ = tag.readline()
         __version__ = __version__.strip()
@@ -761,16 +760,16 @@ class screen:
         self.width, self.height = width, height
         logger.debug(f" ---> disp {self.disp.width},{self.disp.height}")
         self.boldfont = ImageFont.truetype(
-            pkg_resources.resource_filename("timemachine.fonts", "DejaVuSansMono-Bold.ttf"), 33
+            os.path.join(FONTS_DIR, "DejaVuSansMono-Bold.ttf"), 33
         )
         self.boldsmall = ImageFont.truetype(
-            pkg_resources.resource_filename("timemachine.fonts", "DejaVuSansMono-Bold.ttf"), 22
+            os.path.join(FONTS_DIR, "DejaVuSansMono-Bold.ttf"), 22
         )
-        self.font = ImageFont.truetype(pkg_resources.resource_filename("timemachine.fonts", "ariallgt.ttf"), 30)
-        self.smallfont = ImageFont.truetype(pkg_resources.resource_filename("timemachine.fonts", "ariallgt.ttf"), 20)
-        self.oldfont = ImageFont.truetype(pkg_resources.resource_filename("timemachine.fonts", "FreeMono.ttf"), 20)
-        self.largefont = ImageFont.truetype(pkg_resources.resource_filename("timemachine.fonts", "FreeMono.ttf"), 30)
-        self.hugefont = ImageFont.truetype(pkg_resources.resource_filename("timemachine.fonts", "FreeMono.ttf"), 40)
+        self.font = ImageFont.truetype(os.path.join(FONTS_DIR, "ariallgt.ttf"), 30)
+        self.smallfont = ImageFont.truetype(os.path.join(FONTS_DIR, "ariallgt.ttf"), 20)
+        self.oldfont = ImageFont.truetype(os.path.join(FONTS_DIR, "FreeMono.ttf"), 20)
+        self.largefont = ImageFont.truetype(os.path.join(FONTS_DIR, "FreeMono.ttf"), 30)
+        self.hugefont = ImageFont.truetype(os.path.join(FONTS_DIR, "FreeMono.ttf"), 40)
 
         self.image = Image.new("RGB", (width, height))
         self.draw = ImageDraw.Draw(self.image)  # draw using this object. Display image when complete.
