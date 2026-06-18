@@ -702,10 +702,15 @@ class IATapeDownloader(BaseTapeDownloader):
         n_tapes_added = self.store_metadata(iddir, tapes, period_func=period_func)
         n_tapes_total = n_tapes_added
 
+        prev_min_date = None
         while (current_rows < 1.25 * total) and n_tapes_added > 0:
             logger.debug("in while loop")
             min_date_field = tapes[-1]["date"]
             min_date = min_date_field[:10]  # Should we subtract some days for overlap?
+            if min_date == prev_min_date:
+                logger.debug(f"min_date {min_date} did not advance; reached end of available data")
+                break
+            prev_min_date = min_date
             r = self._get_piece(min_date, max_date, min_addeddate, collection=collection)
             j = r.json()
             current_rows += j["count"]
