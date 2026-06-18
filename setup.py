@@ -38,7 +38,7 @@ setup(
         "psutil",
         "pre-commit",
         "pulsectl",
-        "python-mpv==0.5.2",
+        "python-mpv>=1.0.0",
         "requests",
         "RPi.GPIO",
         "tenacity",
