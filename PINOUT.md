@@ -1,5 +1,5 @@
 # GPIO Pinout Reference
-## Hardware: Raspberry Pi 3B + HiFiBerry DAC+ Pro + ST7735 1.8" SPI TFT
+## Hardware: Raspberry Pi 3B + InnoMaker HiFi DAC Hat (PCM5122) + ST7735 1.8" SPI TFT
 
 All pin numbers use BCM (Broadcom) numbering, which is what the software uses.
 Physical pin numbers refer to the 40-pin GPIO header (1 = top-left with USB ports facing down).
@@ -19,7 +19,7 @@ Physical pin numbers refer to the 40-pin GPIO header (1 = top-left with USB port
 |     |          |                        |                   |                                            |
 | 5   | 29       | Year encoder CLK       | Rotary encoder    |                                            |
 | 12  | 32       | Year encoder DT        | Rotary encoder    |                                            |
-| 6   | 31       | Year encoder SW        | Rotary encoder    | Push-to-click                              |
+| 20  | 38       | Year encoder SW        | Rotary encoder    | Push-to-click; moved from GPIO6 (InnoMaker DAC mute conflict) |
 |     |          |                        |                   |                                            |
 | 22  | 15       | Month encoder CLK      | Rotary encoder    |                                            |
 | 16  | 36       | Month encoder DT       | Rotary encoder    |                                            |
@@ -31,21 +31,24 @@ Physical pin numbers refer to the 40-pin GPIO header (1 = top-left with USB port
 
 ---
 
-## HiFiBerry DAC+ Pro Reserved Pins
+## InnoMaker HiFi DAC Hat (PCM5122) Reserved Pins
 
-These pins are wired to the HiFiBerry HAT and **must not be used** for anything else.
+These pins are claimed by the InnoMaker DAC Hat and **must not be used** for anything else.
 
-| BCM | Physical | Function       | Why It's Reserved                          |
-|-----|----------|----------------|--------------------------------------------|
-| 2   | 3        | I2C SDA        | DAC chip control (PCM512x communicates over I2C) |
-| 3   | 5        | I2C SCL        | DAC chip control                           |
-| 18  | 12       | PCM CLK        | I2S audio clock                            |
-| 19  | 35       | PCM FS         | I2S audio frame sync (word select)         |
-| 20  | 38       | PCM DIN        | I2S audio data in                          |
-| 21  | 40       | PCM DOUT       | I2S audio data out                         |
+| BCM | Physical | Function       | Why It's Reserved                                   |
+|-----|----------|----------------|-----------------------------------------------------|
+| 2   | 3        | I2C SDA        | DAC chip control (PCM5122 communicates over I2C)    |
+| 3   | 5        | I2C SCL        | DAC chip control                                    |
+| 6   | 31       | DAC mute       | Active mute control — driven by DAC Hat             |
+| 18  | 12       | PCM CLK        | I2S audio clock                                     |
+| 19  | 35       | PCM FS         | I2S audio frame sync (word select)                  |
+| 21  | 40       | PCM DOUT       | I2S audio data out                                  |
+| 26  | 37       | IR (unpopulated)| Reserved on HAT but not wired — no active conflict |
 
-Note: GPIO 2/3 are the I2C bus. The HiFiBerry uses them, but I2C is a shared bus —
+Note: GPIO 2/3 are the I2C bus. The InnoMaker uses them, but I2C is a shared bus —
 other I2C devices at different addresses can coexist if needed in the future.
+
+Note: GPIO20 (physical pin 38) is NOT used by the InnoMaker DAC Hat and is free for use.
 
 ---
 
@@ -92,21 +95,21 @@ If the serial console is currently enabled, disable it before wiring these butto
 
 Avoid all of the following when adding any new hardware to this build.
 
-| BCM | Physical | Reserved By         | Reason                        |
-|-----|----------|---------------------|-------------------------------|
-| 2   | 3        | HiFiBerry DAC+ Pro  | I2C SDA (DAC control)         |
-| 3   | 5        | HiFiBerry DAC+ Pro  | I2C SCL (DAC control)         |
-| 8   | 24       | SPI display         | Chip select (CE0)             |
-| 9   | 21       | SPI display / config| MISO / play_pause_pin         |
-| 10  | 19       | SPI display         | MOSI                          |
-| 11  | 23       | SPI display         | SCLK                          |
-| 14  | 8        | config              | stop_pin                      |
-| 15  | 10       | config              | rewind_pin                    |
-| 18  | 12       | HiFiBerry DAC+ Pro  | I2S PCM CLK                   |
-| 19  | 35       | HiFiBerry DAC+ Pro  | I2S PCM FS                    |
-| 20  | 38       | HiFiBerry DAC+ Pro  | I2S PCM DIN                   |
-| 21  | 40       | HiFiBerry DAC+ Pro  | I2S PCM DOUT                  |
-| 24  | 18       | SPI display         | DC (Data/Command)             |
-| 25  | 22       | SPI display         | RST (Reset)                   |
+| BCM | Physical | Reserved By              | Reason                        |
+|-----|----------|--------------------------|-------------------------------|
+| 2   | 3        | InnoMaker DAC Hat        | I2C SDA (DAC control)         |
+| 3   | 5        | InnoMaker DAC Hat        | I2C SCL (DAC control)         |
+| 6   | 31       | InnoMaker DAC Hat        | DAC mute (active)             |
+| 8   | 24       | SPI display              | Chip select (CE0)             |
+| 9   | 21       | SPI display / config     | MISO / play_pause_pin         |
+| 10  | 19       | SPI display              | MOSI                          |
+| 11  | 23       | SPI display              | SCLK                          |
+| 14  | 8        | config                   | stop_pin                      |
+| 15  | 10       | config                   | rewind_pin                    |
+| 18  | 12       | InnoMaker DAC Hat        | I2S PCM CLK                   |
+| 19  | 35       | InnoMaker DAC Hat        | I2S PCM FS                    |
+| 21  | 40       | InnoMaker DAC Hat        | I2S PCM DOUT                  |
+| 24  | 18       | SPI display              | DC (Data/Command)             |
+| 25  | 22       | SPI display              | RST (Reset)                   |
 
 Also avoid GPIO 0 and 1 (physical pins 27/28) — these are the HAT ID EEPROM lines.

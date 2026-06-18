@@ -48,7 +48,7 @@ TOUR_STATE = 0
 # Hardware pins
 
 year_pins = (22, 16, 23)  # cl, dt, sw
-month_pins = (5, 12, 6)
+month_pins = (5, 12, 20)  # SW was GPIO6 — conflicts with InnoMaker DAC mute pin
 day_pins = (17, 13, 27)
 
 
